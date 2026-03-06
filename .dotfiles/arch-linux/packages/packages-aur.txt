@@ -1,7 +1,0 @@
-elephant
-elephant-desktopapplications
-elephant-websearch
-python-gpustat
-visual-studio-code-bin
-walker
-
