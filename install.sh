@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -7,7 +6,6 @@ PACMAN_FILE="$REPO_DIR/packages/packages-pacman.txt"
 AUR_FILE="$REPO_DIR/packages/packages-aur.txt"
 TEMP_DIR="/tmp/yay-install.$$"
 
-# Passe diese Liste an deine tatsächlichen Stow-Ordner an
 STOW_DIRS=(
   btop
   hypr
@@ -69,7 +67,7 @@ install_yay() {
     return
   fi
 
-  info "yay nicht gefunden. Installiere benötigte Build-Tools ..."
+  info "yay nicht gefunden. Installiere base-devel ..."
   sudo pacman -S --needed --noconfirm base-devel
 
   info "Klonen von yay ..."
@@ -98,19 +96,32 @@ install_aur_packages() {
 
 stow_dotfiles() {
   if ! command -v stow >/dev/null 2>&1; then
-    error "stow wurde nicht gefunden. Stelle sicher, dass es in packages-pacman.txt enthalten ist."
+    error "stow wurde nicht gefunden."
     exit 1
   fi
 
-  info "Dotfiles werden mit stow verlinkt ..."
+  info "Bereinige bestehende Standard-Configs und verlinke Dotfiles ..."
 
   for dir in "${STOW_DIRS[@]}"; do
-    if [[ -d "$REPO_DIR/$dir" ]]; then
-      info "Stowe $dir -> \$HOME"
-      stow --dir="$REPO_DIR" --target="$HOME" --restow "$dir"
-    else
+    package_dir="$REPO_DIR/$dir"
+
+    if [[ ! -d "$package_dir" ]]; then
       warn "Stow-Ordner nicht gefunden, überspringe: $dir"
+      continue
     fi
+
+    while IFS= read -r -d '' source_path; do
+      rel_path="${source_path#"$package_dir"/}"
+      target_path="$HOME/$rel_path"
+
+      if [[ -e "$target_path" || -L "$target_path" ]]; then
+        info "Entferne vorhandenes Ziel: $target_path"
+        rm -rf "$target_path"
+      fi
+    done < <(find "$package_dir" \( -type f -o -type l \) -print0)
+
+    info "Stowe $dir -> \$HOME"
+    stow --dir="$REPO_DIR" --target="$HOME" --restow "$dir"
   done
 }
 
@@ -122,7 +133,7 @@ main() {
   install_aur_packages
   stow_dotfiles
 
-  info "Fertig."
+  info "Installation abgeschlossen."
 }
 
 main "$@"
