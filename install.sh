@@ -12,6 +12,8 @@ STOW_DIRS=(
   kitty
   waybar
   walker
+  wallpapers
+  applications
 )
 
 info() {
