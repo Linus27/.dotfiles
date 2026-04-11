@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Discord
+Exec=chromium --app=https://discord.com/app
+Icon=discord
+Type=Application
+Categories=Network;
