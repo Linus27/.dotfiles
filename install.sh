@@ -14,6 +14,7 @@ STOW_DIRS=(
   walker
   wallpapers
   applications
+  environment
 )
 
 info() {
@@ -127,6 +128,22 @@ stow_dotfiles() {
   done
 }
 
+setup_ssh_agent() {
+  info "Richte SSH-Agent ein ..."
+
+  if systemctl --user is-enabled ssh-agent >/dev/null 2>&1; then
+    info "ssh-agent ist bereits aktiviert."
+  else
+    systemctl --user enable ssh-agent
+  fi
+
+  if systemctl --user is-active ssh-agent >/dev/null 2>&1; then
+    info "ssh-agent läuft bereits."
+  else
+    systemctl --user start ssh-agent
+  fi
+}
+
 main() {
   info "Starte Installation aus: $REPO_DIR"
 
@@ -134,6 +151,7 @@ main() {
   install_yay
   install_aur_packages
   stow_dotfiles
+  setup_ssh_agent
 
   info "Installation abgeschlossen."
 }
