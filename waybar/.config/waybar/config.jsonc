@@ -94,7 +94,8 @@
     "format": "",
     "format-disabled": "󰂲",
     "format-connected": "󰂱",
-    "format-no-controller": "󰂲"
+    "format-no-controller": "󰂲",
+    "on-click": "kitty bluetui"
   },
   "pulseaudio": {
     "format": "{icon}",
