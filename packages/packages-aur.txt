@@ -2,5 +2,6 @@ elephant
 elephant-desktopapplications
 elephant-websearch
 python-gpustat
+spotatui
 visual-studio-code-bin
 walker
