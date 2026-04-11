@@ -1,4 +1,5 @@
 amd-ucode
+archlinux-xdg-menu
 baobab
 base
 base-devel
