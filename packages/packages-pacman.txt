@@ -23,6 +23,7 @@ gst-plugin-pipewire
 hyprland
 hyprpaper
 hyprpolkitagent
+hyprshot
 iwd
 kitty
 libpulse
