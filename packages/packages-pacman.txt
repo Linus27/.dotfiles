@@ -7,6 +7,7 @@ bluez
 bluez-utils
 btop
 btrfs-progs
+chromium
 dkms
 dolphin
 dunst
