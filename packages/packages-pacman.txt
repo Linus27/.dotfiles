@@ -55,6 +55,7 @@ simple-scan
 slurp
 smartmontools
 snapshot
+solaar
 stow
 sudo
 swaync
