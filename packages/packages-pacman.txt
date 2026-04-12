@@ -23,6 +23,7 @@ grim
 gst-plugin-pipewire
 hyprland
 hyprpaper
+hyprpicker
 hyprpolkitagent
 hyprshot
 iwd
